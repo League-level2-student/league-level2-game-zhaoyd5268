@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	final int GAME = 1;
 	final int END = 2;
 	int currentState = MENU;
-	SpaceShip ship = new SpaceShip(400, 750, 50, 50);	
+	ObjectManager manager = new ObjectManager();
 	// gamePanel constructor(Font method)
 
 	GamePanel() {
@@ -37,7 +37,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.fillRect(10, 10, 100, 100);
 		if (currentState == MENU) {
 			drawMenuState(g);
 		} else if (currentState == GAME) {
@@ -45,7 +44,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		} else if (currentState == END) {
 			drawEndState(g);
 		}
-
 	}
 
 	// Game state methods
@@ -55,7 +53,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void updateGameState() {
-
+		manager.update();
 	}
 
 	void updateEndState() {
@@ -74,7 +72,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	void drawGameState(Graphics g) {
 		g.setColor(Color.PINK);
 		g.fillRect(0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT);
-		ship.draw(g);
+		manager.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
@@ -119,6 +117,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void keyReleased(KeyEvent b) {
 		if (b.getKeyCode() == KeyEvent.VK_UP) {
 			ship.UP(false);
+			
 		}
 		if (b.getKeyCode() == KeyEvent.VK_DOWN) {
 			ship.DOWN(false);
@@ -147,7 +146,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			updateEndState();
 		}
 		repaint();
-		
 	}
 
 }
