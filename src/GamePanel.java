@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 // GamePanel variables
 
 	Timer framedraw;
+	Timer bulletspawn;
 	Font titlefont;
 	Font instructions;
 	Font endgamefont;
@@ -67,12 +68,17 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.setFont(titlefont);
 		g.setColor(Color.black);
 		g.drawString("AVOID THE BULLETS ", 150, 200);
+		g.setFont(instructions);
+		g.setColor(Color.black);
+		g.drawString("press t to continue", 150, 300);
 	}
 
 	void drawGameState(Graphics g) {
 		g.setColor(Color.PINK);
 		g.fillRect(0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT);
-		manager.draw(g);
+		manager.ship.draw(g);
+		manager.spawn(g);
+		
 	}
 
 	void drawEndState(Graphics g) {
@@ -96,19 +102,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	
 		if (b.getKeyCode() == KeyEvent.VK_UP) {
 			System.out.println("UP");
-			ship.UP(true);
+			manager.ship.UP(true);
 		}
 		if (b.getKeyCode() == KeyEvent.VK_DOWN) {
 			System.out.println("DOWN");
-			ship.DOWN(true);
+			manager.ship.DOWN(true);
 		}
 		if (b.getKeyCode() == KeyEvent.VK_LEFT) {
 			System.out.println("LEFT");
-			ship.LEFT(true);
+			manager.ship.LEFT(true);
 		}
 		if (b.getKeyCode() == KeyEvent.VK_RIGHT) {
 			System.out.println("RIGHT");
-			ship.RIGHT(true);
+			manager.ship.RIGHT(true);
 		}
 		
 	}
@@ -116,25 +122,20 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void keyReleased(KeyEvent b) {
 		if (b.getKeyCode() == KeyEvent.VK_UP) {
-			ship.UP(false);
+			manager.ship.UP(false);
 			
 		}
 		if (b.getKeyCode() == KeyEvent.VK_DOWN) {
-			ship.DOWN(false);
+			manager.ship.DOWN(false);
 		}
 		if (b.getKeyCode() == KeyEvent.VK_LEFT) {
-			ship.LEFT(false);
+			manager.ship.LEFT(false);
 		}
 		if (b.getKeyCode() == KeyEvent.VK_RIGHT) {
-			ship.RIGHT(false);
+			manager.ship.RIGHT(false);
 		}
 	}
 
-	@Override
-	public void keyTyped(KeyEvent b0) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent b) {
@@ -147,5 +148,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 		repaint();
 	}
+	public void bulletspawn() {
+		  bulletspawn = new Timer(1000, manager);
+		  bulletspawn.start();
+	}
 
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -5,20 +5,19 @@ import javax.swing.JFrame;
 public class AvoidTheBullets {
 
 	// Game variables
-	
+
 	JFrame frame;
 	GamePanel gamepanel;
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 800;
-	
+
 	// JFrame inititalizer constructor
-	
-	AvoidTheBullets() { 
-	 frame = new JFrame();	
-	 gamepanel = new GamePanel();
+
+	AvoidTheBullets() {
+		frame = new JFrame();
+		gamepanel = new GamePanel();
 	}
-	
-	
+
 	// Main method
 	public static void main(String[] args) {
 		AvoidTheBullets avoidthebullets = new AvoidTheBullets();
@@ -26,7 +25,7 @@ public class AvoidTheBullets {
 	}
 
 	// Setup method
-	
+
 	void setup() {
 		Dimension d = new Dimension(WIDTH, HEIGHT);
 		frame.add(gamepanel);
@@ -36,4 +35,7 @@ public class AvoidTheBullets {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	void update() {
+
+	}
 }
