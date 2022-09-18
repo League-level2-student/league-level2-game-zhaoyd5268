@@ -11,8 +11,8 @@ public class SpaceShip extends GameObject {
 	int speed = 5;
 	// ship constructor
 
-	SpaceShip(int x, int y, int width, int height, int speed) {
-		super(x, y, width, height, speed);
+	SpaceShip(int x, int y, int width, int height, int speed, boolean active) {
+		super(x, y, width, height, speed, 25, true);
 		
 	}
 
@@ -20,7 +20,7 @@ public class SpaceShip extends GameObject {
 
 	void draw(Graphics g) {
 		     g.setColor(Color.WHITE);
-		     g.fillRect(x, y, width, height);
+		     g.fillRect((int)x, (int)y, width, height);
 	}
 
 	// movement methods

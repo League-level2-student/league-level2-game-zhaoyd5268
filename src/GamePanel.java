@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -14,6 +13,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 // GamePanel variables
 
+	int score = 0;
 	Timer framedraw;
 	Timer bulletspawn;
 	Font titlefont;
@@ -30,8 +30,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		titlefont = new Font("Arial", Font.BOLD, 50);
 		instructions = new Font("Arial", Font.BOLD, 30);
 		endgamefont = new Font("Arial", Font.BOLD, 40);
-		framedraw = new Timer(1000/60, this);
+		framedraw = new Timer(1000 / 60, this);
 		framedraw.start();
+		bulletspawn();
 	}
 
 	// Paint method
@@ -50,11 +51,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	// Game state methods
 
 	void updateMenuState() {
-
+		
 	}
 
 	void updateGameState() {
 		manager.update();
+		if (manager.ship.active == false) {
+		currentState = END;
+		
+		}
+		
 	}
 
 	void updateEndState() {
@@ -76,9 +82,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	void drawGameState(Graphics g) {
 		g.setColor(Color.PINK);
 		g.fillRect(0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT);
-		manager.ship.draw(g);
-		manager.spawn(g);
-		
+		manager.draw(g);
+
 	}
 
 	void drawEndState(Graphics g) {
@@ -86,7 +91,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.fillRect(0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT);
 		g.setFont(endgamefont);
 		g.setColor(Color.white);
-		g.drawString("You survived for seconds ", 150, 200);
+		g.drawString("You survived for " + score + " seconds", 150, 200);
 	}
 
 	// Key movement methods
@@ -98,8 +103,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			} else {
 				currentState++;
 			}
+			if (currentState == MENU) {
+				manager.ship.active = true;
+				manager.bullets.clear();
+			}
 		}
-	
+
 		if (b.getKeyCode() == KeyEvent.VK_UP) {
 			System.out.println("UP");
 			manager.ship.UP(true);
@@ -116,14 +125,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			System.out.println("RIGHT");
 			manager.ship.RIGHT(true);
 		}
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent b) {
 		if (b.getKeyCode() == KeyEvent.VK_UP) {
 			manager.ship.UP(false);
-			
+
 		}
 		if (b.getKeyCode() == KeyEvent.VK_DOWN) {
 			manager.ship.DOWN(false);
@@ -136,7 +145,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 
-
 	@Override
 	public void actionPerformed(ActionEvent b) {
 		if (currentState == MENU) {
@@ -148,14 +156,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 		repaint();
 	}
+
 	public void bulletspawn() {
-		  bulletspawn = new Timer(1000, manager);
-		  bulletspawn.start();
+		bulletspawn = new Timer(1000, manager);
+		bulletspawn.start();
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
