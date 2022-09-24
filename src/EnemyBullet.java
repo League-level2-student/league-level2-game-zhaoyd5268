@@ -32,8 +32,8 @@ public class EnemyBullet extends GameObject {
 	}
 
 	void update(double shipX, double shipY) {
-		x -= vx / 60;
-		y -= vy / 60;
+		x -= vx / 45;
+		y -= vy / 45;
 
 	}
 }

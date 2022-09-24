@@ -13,11 +13,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 // GamePanel variables
 
-	int score = 0;
 	Timer framedraw;
-	Timer bulletspawn;
+	public static Timer bulletspawn;
 	Font titlefont;
+	public static Timer survival;
 	Font instructions;
+	public static Timer poweruptimer;
 	Font endgamefont;
 	final int MENU = 0;
 	final int GAME = 1;
@@ -33,6 +34,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		framedraw = new Timer(1000 / 60, this);
 		framedraw.start();
 		bulletspawn();
+		scorecounter();
+		poweruptimer();
 	}
 
 	// Paint method
@@ -51,20 +54,21 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	// Game state methods
 
 	void updateMenuState() {
-		
+
 	}
 
 	void updateGameState() {
 		manager.update();
 		if (manager.ship.active == false) {
-		currentState = END;
-		
+			currentState = END;
 		}
-		
+
 	}
 
 	void updateEndState() {
-
+		if (currentState == END) {
+			survival.stop();
+		}
 	}
 
 	// draw methods
@@ -91,7 +95,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.fillRect(0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT);
 		g.setFont(endgamefont);
 		g.setColor(Color.white);
-		g.drawString("You survived for " + score + " seconds", 150, 200);
+		g.drawString("You survived for " + manager.score + " seconds", 150, 200);
 	}
 
 	// Key movement methods
@@ -106,6 +110,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			if (currentState == MENU) {
 				manager.ship.active = true;
 				manager.bullets.clear();
+				manager.score = 0;
+			} 
+			if (currentState == GAME) {
+				survival.start();
 			}
 		}
 
@@ -160,7 +168,22 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void bulletspawn() {
 		bulletspawn = new Timer(1000, manager);
 		bulletspawn.start();
+		
 	}
+
+	// score counter
+
+	public void scorecounter() {
+		survival = new Timer(1000, manager);
+		survival.start();
+
+}
+	// powerup timer
+	public void poweruptimer() {
+		poweruptimer = new Timer(10000, manager);
+		poweruptimer.start();
+
+}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {

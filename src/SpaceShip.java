@@ -19,9 +19,9 @@ public class SpaceShip extends GameObject {
 	// draw method
 
 	void draw(Graphics g) {
-		     g.setColor(Color.WHITE);
-		     g.fillRect((int)x, (int)y, width, height);
-	}
+	     g.setColor(Color.WHITE);
+	     g.fillRect((int)x, (int)y, width, height);
+}
 
 	// movement methods
 	public void UP(boolean up) {
