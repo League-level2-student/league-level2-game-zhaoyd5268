@@ -15,8 +15,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	Timer framedraw;
 	public static Timer bulletspawn;
+	public static Timer otherpoweruptimer;
 	Font titlefont;
 	public static Timer survival;
+	public static Timer survivalpowerupstop;
 	Font instructions;
 	public static Timer poweruptimer;
 	Font endgamefont;
@@ -96,6 +98,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.setFont(endgamefont);
 		g.setColor(Color.white);
 		g.drawString("You survived for " + manager.score + " seconds", 150, 200);
+		g.drawString("Press Space to restart", 150, 400);
 	}
 
 	// Key movement methods
@@ -116,7 +119,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				survival.start();
 			}
 		}
-
+		if (b.getKeyCode() == KeyEvent.VK_SPACE && currentState == END) {
+			manager.score = 0;
+			manager.ship.active = true;
+			manager.bullets.clear();
+			poweruptimer.restart();
+			survival.start();
+			currentState = GAME;
+			manager.powerups.clear();
+		}
 		if (b.getKeyCode() == KeyEvent.VK_UP) {
 			System.out.println("UP");
 			manager.ship.UP(true);
@@ -182,8 +193,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void poweruptimer() {
 		poweruptimer = new Timer(10000, manager);
 		poweruptimer.start();
+	
 
 }
+	
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {

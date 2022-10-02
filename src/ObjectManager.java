@@ -4,10 +4,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.Timer;
+
 public class ObjectManager implements ActionListener {
 
 	// member variables
 
+	long powerstart;
+	public static int activePowerUpType = -1;
 	ArrayList<EnemyBullet> bullets = new ArrayList<EnemyBullet>();
 	ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
 	Random generator = new Random();
@@ -43,15 +47,8 @@ public class ObjectManager implements ActionListener {
 	public void spawnpowerups() {
 		int spawnareaX = generator.nextInt(750);
 		int spawnareaY = generator.nextInt(750);
-		int whichpowerup = generator.nextInt(2);
-		boolean userpowerup = false;
-		if (whichpowerup == 0) {
-			userpowerup = false;
-		}
-		if (whichpowerup == 1) {
-			userpowerup = true;
-		}
-		PowerUp powerup = new PowerUp(spawnareaX, spawnareaY, 30, 30, 0, 10, true, userpowerup);
+		int type = generator.nextInt(3);
+		PowerUp powerup = new PowerUp(spawnareaX, spawnareaY, 30, 30, 0, 10, true, type);
 		powerups.add(powerup);
 	}
 
@@ -70,7 +67,14 @@ public class ObjectManager implements ActionListener {
 			bullets.get(i).update(ship.x, ship.y);
 		}
 		ship.update();
-		checkCollision();
+		if (System.currentTimeMillis()>powerstart + 5000) {
+			ship.speed = 5;
+			activePowerUpType = -1;
+		}
+		if (activePowerUpType != 1) {
+			checkCollision();
+		}
+
 	}
 
 	@Override
@@ -95,7 +99,11 @@ public class ObjectManager implements ActionListener {
 		}
 		for (int i = 0; i < powerups.size(); i++) {
 			if (powerups.get(i).hasCollided(ship)) {
-				ship.speed+=5;
+				if (powerups.get(i).type == 0) {
+					ship.speed+=5;
+				} 
+				activePowerUpType = powerups.get(i).type;
+				powerstart = System.currentTimeMillis();
 				powerups.clear();
 			}
 		}
@@ -107,6 +115,7 @@ public class ObjectManager implements ActionListener {
 
 	public void powerup() {
 		spawnpowerups();
+		GamePanel.poweruptimer.restart();
 	}
 
 	public void death() {

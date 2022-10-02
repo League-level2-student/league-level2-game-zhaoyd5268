@@ -5,23 +5,29 @@ public class PowerUp extends GameObject {
 
 	// member variables
 
-	boolean whichpower;
+	int type;
 
+	
 	// powerup constructor
 
-	PowerUp(double x, double y, int width, int height, int speed, double size, boolean active, boolean whichpower) {
+	PowerUp(double x, double y, int width, int height, int speed, double size, boolean active, int type) {
 		super(x, y, width, height, speed, size, active);
-		this.whichpower = whichpower;
+		this.type = type;
 	}
 	// update method
-	
+
 	public void update() {
-		
 	}
 	// draw method
 
 	void draw(Graphics g) {
-		g.setColor(Color.black);
-		g.fillRect((int) x, (int) y, 30, 30);
+		if (type == 0) {
+			g.setColor(Color.BLACK);
+			g.fillRect((int) x, (int) y, 30, 30);
+		}
+		if (type == 1) {
+			g.setColor(Color.GREEN);
+			g.fillRect((int) x, (int) y, 30, 30);
+		}
 	}
 }
