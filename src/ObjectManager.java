@@ -30,16 +30,16 @@ public class ObjectManager implements ActionListener {
 		int spawnareaX = generator.nextInt(750);
 		int spawnareaY = generator.nextInt(750);
 		if (spawnlocation == 0) {
-			EnemyBullet bullet = new EnemyBullet(0, spawnareaY, 20, 20, 15);
+			EnemyBullet bullet = new EnemyBullet(0, spawnareaY, 50, 50, 15);
 			bullets.add(bullet);
 		} else if (spawnlocation == 1) {
-			EnemyBullet bullet = new EnemyBullet(spawnareaX, 0, 20, 20, 15);
+			EnemyBullet bullet = new EnemyBullet(spawnareaX, 0, 50, 50, 15);
 			bullets.add(bullet);
 		} else if (spawnlocation == 2) {
-			EnemyBullet bullet = new EnemyBullet(AvoidTheBullets.WIDTH, spawnareaY, 20, 20, 15);
+			EnemyBullet bullet = new EnemyBullet(AvoidTheBullets.WIDTH, spawnareaY, 50, 50, 15);
 			bullets.add(bullet);
 		} else if (spawnlocation == 3) {
-			EnemyBullet bullet = new EnemyBullet(spawnareaX, AvoidTheBullets.HEIGHT - 15, 20, 20, 15);
+			EnemyBullet bullet = new EnemyBullet(spawnareaX, AvoidTheBullets.HEIGHT - 15, 50, 50, 15);
 			bullets.add(bullet);
 		}
 	}
@@ -106,6 +106,18 @@ public class ObjectManager implements ActionListener {
 				powerstart = System.currentTimeMillis();
 				powerups.clear();
 			}
+		}
+		if (ship.x > 799) {
+			ship.x = 2;
+		} 
+		if (ship.x < 1) {
+			ship.x = 798;
+		}
+		if (ship.y < 1) {
+			ship.y = 798;
+		}
+		if (ship.y > 799) {
+			ship.y = 2;
 		}
 	}
 

@@ -1,9 +1,18 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 
 public class SpaceShip extends GameObject {
-	// 
-// game variables
+
+	// Image member variables
+
+	public static BufferedImage image;
+	public static boolean needImage = true;
+	public static boolean gotImage = false;
+
+	// game variables
 	boolean up;
 	boolean down;
 	boolean left;
@@ -12,16 +21,23 @@ public class SpaceShip extends GameObject {
 	// ship constructor
 
 	SpaceShip(int x, int y, int width, int height, int speed, boolean active) {
-		super(x, y, width, height, speed, 25, true);
-		
+		super(x, y, width, height, speed, 9, true);
+		if (needImage) {
+			loadImage("glowCircle.png");
+		}
 	}
 
 	// draw method
 
 	void draw(Graphics g) {
-	     g.setColor(Color.WHITE);
-	     g.fillRect((int)x, (int)y, width, height);
-}
+		if (gotImage) {
+			g.drawImage(image, (int) x, (int) y, width, height, null);
+		} else {
+			g.setColor(Color.WHITE);
+			g.fillRect((int) x, (int) y, width, height);
+		}
+
+	}
 
 	// movement methods
 	public void UP(boolean up) {
@@ -40,7 +56,7 @@ public class SpaceShip extends GameObject {
 		this.right = right;
 	}
 
-	void update() {
+	 void update() {
 		super.update();
 		if (up == true) {
 			y -= speed;
@@ -53,6 +69,18 @@ public class SpaceShip extends GameObject {
 		}
 		if (right == true) {
 			x += speed;
+		}
+	}
+
+	void loadImage(String imageFile) {
+		if (needImage) {
+			try {
+				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage = true;
+			} catch (Exception e) {
+
+			}
+			needImage = false;
 		}
 	}
 }

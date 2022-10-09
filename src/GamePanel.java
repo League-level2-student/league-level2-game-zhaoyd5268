@@ -5,13 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
-// GamePanel variables
+	// Image member variables
+
+	public static BufferedImage image;
+	public static boolean needImage = true;
+	public static boolean gotImage = false;
+
+	// GamePanel variables
 
 	Timer framedraw;
 	public static Timer bulletspawn;
@@ -38,6 +46,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		bulletspawn();
 		scorecounter();
 		poweruptimer();
+		if (needImage) {
+			loadImage("sky1.png");
+		}
 	}
 
 	// Paint method
@@ -86,8 +97,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.PINK);
-		g.fillRect(0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT);
+		if (gotImage) {
+			g.drawImage(image, 0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT, null);
+		} else {
+			g.setColor(Color.ORANGE);
+			g.fillRect(0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT);
+		}
 		manager.draw(g);
 
 	}
@@ -99,6 +114,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.setColor(Color.white);
 		g.drawString("You survived for " + manager.score + " seconds", 150, 200);
 		g.drawString("Press Space to restart", 150, 400);
+		g.drawString("Or, press t to go back to the menu", 150, 600);
 	}
 
 	// Key movement methods
@@ -107,14 +123,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (b.getKeyCode() == KeyEvent.VK_T) {
 			if (currentState == END) {
 				currentState = MENU;
-			} else {
-				currentState++;
+			} else if (currentState == MENU) {
+				currentState = GAME;
 			}
 			if (currentState == MENU) {
 				manager.ship.active = true;
 				manager.bullets.clear();
 				manager.score = 0;
-			} 
+			}
 			if (currentState == GAME) {
 				survival.start();
 			}
@@ -129,19 +145,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			manager.powerups.clear();
 		}
 		if (b.getKeyCode() == KeyEvent.VK_UP) {
-			System.out.println("UP");
 			manager.ship.UP(true);
 		}
 		if (b.getKeyCode() == KeyEvent.VK_DOWN) {
-			System.out.println("DOWN");
 			manager.ship.DOWN(true);
 		}
 		if (b.getKeyCode() == KeyEvent.VK_LEFT) {
-			System.out.println("LEFT");
 			manager.ship.LEFT(true);
 		}
 		if (b.getKeyCode() == KeyEvent.VK_RIGHT) {
-			System.out.println("RIGHT");
 			manager.ship.RIGHT(true);
 		}
 
@@ -179,7 +191,21 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void bulletspawn() {
 		bulletspawn = new Timer(1000, manager);
 		bulletspawn.start();
-		
+
+	}
+	
+	// Image loader method
+
+	void loadImage(String imageFile) {
+		if (needImage) {
+			try {
+				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			needImage = false;
+		}
 	}
 
 	// score counter
@@ -188,15 +214,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		survival = new Timer(1000, manager);
 		survival.start();
 
-}
+	}
+
 	// powerup timer
 	public void poweruptimer() {
 		poweruptimer = new Timer(10000, manager);
 		poweruptimer.start();
-	
 
-}
-	
+	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
