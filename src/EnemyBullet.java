@@ -42,7 +42,8 @@ public class EnemyBullet extends GameObject {
 	// draw and update methods
 
 	void draw(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g.create(0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT);
+		Graphics2D g2d = (Graphics2D) 
+		g.create(0, 0, AvoidTheBullets.WIDTH, AvoidTheBullets.HEIGHT);
 		g2d.translate(x, y);
 		g2d.rotate(Math.toRadians(angle));
 		if (gotImage) {
@@ -55,8 +56,8 @@ public class EnemyBullet extends GameObject {
 	}
 
 	void update(double shipX, double shipY) {
-		x -= vx / 45;
-		y -= vy / 45;
+		x -= vx / 35;
+		y -= vy / 35;
 
 	}
 	void loadImage(String imageFile) {

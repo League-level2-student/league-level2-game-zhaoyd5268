@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -29,6 +30,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public static Timer survivalpowerupstop;
 	Font instructions;
 	public static Timer poweruptimer;
+	public static Timer spinnerspawn;
 	Font endgamefont;
 	final int MENU = 0;
 	final int GAME = 1;
@@ -46,6 +48,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		bulletspawn();
 		scorecounter();
 		poweruptimer();
+		spinnerspawn();
 		if (needImage) {
 			loadImage("sky1.png");
 		}
@@ -67,10 +70,17 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	// Game state methods
 
 	void updateMenuState() {
-
+bulletspawn.stop();
+spinnerspawn.stop();
+poweruptimer.stop();
+survival.stop();
 	}
 
 	void updateGameState() {
+		bulletspawn.start();
+		spinnerspawn.start();
+		poweruptimer.start();
+		survival.start();
 		manager.update();
 		if (manager.ship.active == false) {
 			currentState = END;
@@ -93,7 +103,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.drawString("AVOID THE BULLETS ", 150, 200);
 		g.setFont(instructions);
 		g.setColor(Color.black);
-		g.drawString("press t to continue", 150, 300);
+		g.drawString("press t to continue or press i for instructions", 100, 300);
+		
 	}
 
 	void drawGameState(Graphics g) {
@@ -134,6 +145,17 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			if (currentState == GAME) {
 				survival.start();
 			}
+	
+		}
+		if (b.getKeyCode() == KeyEvent.VK_I && currentState == MENU) {
+			JOptionPane.showMessageDialog(null, "Welcome to Avoid The Bullets! Please read this text if you are playing "
+					+ "for the first time. This is a survival game. Once you are in the game,\n"
+					+ " you see yourself as the white circle. There will be missiles traveling at high speeds at you."
+					+ "If you want to survive, use the arrow keys to move around and avoid them. \n Use your "
+					+ "reflexes and pro gamer skills to survive. Every 10 ten seconds,  there is a change that a powerup will "
+					+ "spawn randomly on the map. \n If one does,  you can collect it and it will give you either speed or "
+					+ "invulnerability  for 5 seconds. These are marked by the lightning bolt \n and turtle shell respectively. "
+					+ "Have fun, and don't give up. if you have trouble \n at first, keep trying and you will get good!");
 		}
 		if (b.getKeyCode() == KeyEvent.VK_SPACE && currentState == END) {
 			manager.score = 0;
@@ -213,6 +235,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void scorecounter() {
 		survival = new Timer(1000, manager);
 		survival.start();
+
+	}
+
+	// score counter
+
+	public void spinnerspawn() {
+		spinnerspawn = new Timer(5000, manager);
+		spinnerspawn.start();
 
 	}
 

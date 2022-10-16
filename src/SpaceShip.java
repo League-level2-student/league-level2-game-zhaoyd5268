@@ -21,7 +21,7 @@ public class SpaceShip extends GameObject {
 	// ship constructor
 
 	SpaceShip(int x, int y, int width, int height, int speed, boolean active) {
-		super(x, y, width, height, speed, 9, true);
+		super(x, y, width, height, speed, 11, true);
 		if (needImage) {
 			loadImage("glowCircle.png");
 		}
@@ -31,7 +31,7 @@ public class SpaceShip extends GameObject {
 
 	void draw(Graphics g) {
 		if (gotImage) {
-			g.drawImage(image, (int) x, (int) y, width, height, null);
+			g.drawImage(image, (int) (x - width/2), (int) (y - height/2), width, height, null);
 		} else {
 			g.setColor(Color.WHITE);
 			g.fillRect((int) x, (int) y, width, height);

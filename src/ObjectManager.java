@@ -13,6 +13,7 @@ public class ObjectManager implements ActionListener {
 	long powerstart;
 	public static int activePowerUpType = -1;
 	ArrayList<EnemyBullet> bullets = new ArrayList<EnemyBullet>();
+	ArrayList<EnemySpinner> spinners = new ArrayList<EnemySpinner>();
 	ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
 	Random generator = new Random();
 	int score = 0;
@@ -24,25 +25,46 @@ public class ObjectManager implements ActionListener {
 
 	}
 
-	// spawner method
-	public void spawn() {
-		int spawnlocation = generator.nextInt(3);
-		int spawnareaX = generator.nextInt(750);
-		int spawnareaY = generator.nextInt(750);
-		if (spawnlocation == 0) {
-			EnemyBullet bullet = new EnemyBullet(0, spawnareaY, 50, 50, 15);
-			bullets.add(bullet);
-		} else if (spawnlocation == 1) {
-			EnemyBullet bullet = new EnemyBullet(spawnareaX, 0, 50, 50, 15);
-			bullets.add(bullet);
-		} else if (spawnlocation == 2) {
-			EnemyBullet bullet = new EnemyBullet(AvoidTheBullets.WIDTH, spawnareaY, 50, 50, 15);
-			bullets.add(bullet);
-		} else if (spawnlocation == 3) {
-			EnemyBullet bullet = new EnemyBullet(spawnareaX, AvoidTheBullets.HEIGHT - 15, 50, 50, 15);
-			bullets.add(bullet);
+	// spawner bullet method
+		public void spawn() { 
+			int spawnlocation = generator.nextInt(3);
+			int spawnareaX = generator.nextInt(750);
+			int spawnareaY = generator.nextInt(750);
+			if (spawnlocation == 0) {
+				EnemyBullet bullet = new EnemyBullet(0, spawnareaY, 50, 50, 15);
+				bullets.add(bullet);
+			} else if (spawnlocation == 1) {
+				EnemyBullet bullet = new EnemyBullet(spawnareaX, 0, 50, 50, 15);
+				bullets.add(bullet);
+			} else if (spawnlocation == 2) {
+				EnemyBullet bullet = new EnemyBullet(AvoidTheBullets.WIDTH, spawnareaY, 50, 50, 15);
+				bullets.add(bullet);
+			} else if (spawnlocation == 3) {
+				EnemyBullet bullet = new EnemyBullet(spawnareaX, AvoidTheBullets.HEIGHT - 15, 50, 50, 15);
+				bullets.add(bullet);
+			}
 		}
-	}
+		
+		// spawner spinner  method
+		
+		public void spawnspinner() {
+			int spawnlocation = generator.nextInt(3);
+			int spawnareaX = generator.nextInt(750);
+			int spawnareaY = generator.nextInt(750);
+			if (spawnlocation == 0) {
+				EnemySpinner spinner = new EnemySpinner( -40, spawnareaY, 50, 50, 15, 6, true);
+				spinners.add(spinner);
+			} else if (spawnlocation == 1) {
+				EnemySpinner spinner = new EnemySpinner(spawnareaX, -4 0, 50, 50, 15, 6, true);
+				spinners.add(spinner);
+			} else if (spawnlocation == 2) {
+				EnemySpinner spinner = new EnemySpinner(-40, spawnareaY, 50, 50, 15, 6, true);
+				spinners.add(spinner);
+			} else if (spawnlocation == 3) {
+				EnemySpinner spinner = new EnemySpinner(spawnareaX, AvoidTheBullets.HEIGHT - 40, 50, 50, 15, 6, true);
+				spinners.add(spinner);
+			}
+		}
 
 	public void spawnpowerups() {
 		int spawnareaX = generator.nextInt(750);
@@ -59,6 +81,9 @@ public class ObjectManager implements ActionListener {
 		ship.draw(g);
 		for (int i = 0; i < powerups.size(); i++) {
 			powerups.get(i).draw(g);
+		}
+		for (int i = 0; i < spinners.size(); i++) {
+			spinners.get(i).draw(g);
 		}
 	}
 
@@ -87,6 +112,9 @@ public class ObjectManager implements ActionListener {
 		}
 		if (e.getSource() == GamePanel.poweruptimer) {
 			powerup();
+		}
+		if (e.getSource() == GamePanel.spinnerspawn) {
+			spinner();
 		}
 
 	}
@@ -132,5 +160,9 @@ public class ObjectManager implements ActionListener {
 
 	public void death() {
 		ship.active = false;
+	}
+	
+	public void spinner() {
+		spawnspinner();
 	}
 }
