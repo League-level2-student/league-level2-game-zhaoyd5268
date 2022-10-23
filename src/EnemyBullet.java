@@ -28,8 +28,9 @@ public class EnemyBullet extends GameObject {
 		super(x, y, width, height, speed, 20, true);
 		double dx = x - ObjectManager.ship.x;
 		double dy = y - ObjectManager.ship.y;
-		vx = dx;
-		vy = dy;
+		vx = dx/35;
+		vy = dy/35;
+		
 		angle = Math.toDegrees(Math.atan(vy/vx)+ Math.toRadians(-90));
 		if (vx<0) {
 			angle = angle + 180;
@@ -56,8 +57,8 @@ public class EnemyBullet extends GameObject {
 	}
 
 	void update(double shipX, double shipY) {
-		x -= vx / 35;
-		y -= vy / 35;
+		x -= vx;
+		y -= vy;
 
 	}
 	void loadImage(String imageFile) {

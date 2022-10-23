@@ -52,16 +52,16 @@ public class ObjectManager implements ActionListener {
 			int spawnareaX = generator.nextInt(750);
 			int spawnareaY = generator.nextInt(750);
 			if (spawnlocation == 0) {
-				EnemySpinner spinner = new EnemySpinner( -40, spawnareaY, 50, 50, 15, 6, true);
+				EnemySpinner spinner = new EnemySpinner( -70, spawnareaY, 50, 50, 15, 6, true);				
 				spinners.add(spinner);
 			} else if (spawnlocation == 1) {
-				EnemySpinner spinner = new EnemySpinner(spawnareaX, -4 0, 50, 50, 15, 6, true);
+				EnemySpinner spinner = new EnemySpinner(spawnareaX, -70, 50, 50, 15, 6, true);
 				spinners.add(spinner);
 			} else if (spawnlocation == 2) {
-				EnemySpinner spinner = new EnemySpinner(-40, spawnareaY, 50, 50, 15, 6, true);
+				EnemySpinner spinner = new EnemySpinner(-70, spawnareaY, 50, 50, 15, 6, true);
 				spinners.add(spinner);
 			} else if (spawnlocation == 3) {
-				EnemySpinner spinner = new EnemySpinner(spawnareaX, AvoidTheBullets.HEIGHT - 40, 50, 50, 15, 6, true);
+				EnemySpinner spinner = new EnemySpinner(spawnareaX, AvoidTheBullets.HEIGHT + 70, 50, 50, 15, 6, true);
 				spinners.add(spinner);
 			}
 		}
@@ -99,7 +99,10 @@ public class ObjectManager implements ActionListener {
 		if (activePowerUpType != 1) {
 			checkCollision();
 		}
-
+		for(int i = 0; i< spinners.size(); i++) {
+			spinners.get(i).update();
+		}
+		purgeobjects();
 	}
 
 	@Override
@@ -149,6 +152,18 @@ public class ObjectManager implements ActionListener {
 		}
 	}
 
+	public void purgeobjects() {
+		for (int i = 0; i < bullets.size(); i++) {
+			if (bullets.get(i).active == false) {
+				bullets.remove(i);
+			}
+		}
+		for (int i = 0; i < spinners.size(); i++) {
+			if (spinners.get(i).active == false) {
+				spinners.remove(i);
+			}
+		}
+	}
 	public void survivetime() {
 		score += 1;
 	}
