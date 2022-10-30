@@ -70,10 +70,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	// Game state methods
 
 	void updateMenuState() {
-bulletspawn.stop();
-spinnerspawn.stop();
-poweruptimer.stop();
-survival.stop();
+		bulletspawn.stop();
+		spinnerspawn.stop();
+		poweruptimer.stop();
+		survival.stop();
+		spinnerspawn.stop();
 	}
 
 	void updateGameState() {
@@ -90,7 +91,11 @@ survival.stop();
 
 	void updateEndState() {
 		if (currentState == END) {
+			bulletspawn.stop();
+			spinnerspawn.stop();
+			poweruptimer.stop();
 			survival.stop();
+			spinnerspawn.stop();
 		}
 	}
 
@@ -104,7 +109,7 @@ survival.stop();
 		g.setFont(instructions);
 		g.setColor(Color.black);
 		g.drawString("press t to continue or press i for instructions", 100, 300);
-		
+
 	}
 
 	void drawGameState(Graphics g) {
@@ -145,17 +150,18 @@ survival.stop();
 			if (currentState == GAME) {
 				survival.start();
 			}
-	
+
 		}
 		if (b.getKeyCode() == KeyEvent.VK_I && currentState == MENU) {
-			JOptionPane.showMessageDialog(null, "Welcome to Avoid The Bullets! Please read this text if you are playing "
-					+ "for the first time. This is a survival game. Once you are in the game,\n"
-					+ " you see yourself as the white circle. There will be missiles traveling at high speeds at you."
-					+ "If you want to survive, use the arrow keys to move around and avoid them. \n Use your "
-					+ "reflexes and pro gamer skills to survive. Every 10 ten seconds,  there is a change that a powerup will "
-					+ "spawn randomly on the map. \n If one does,  you can collect it and it will give you either speed or "
-					+ "invulnerability  for 5 seconds. These are marked by the lightning bolt \n and turtle shell respectively. "
-					+ "Have fun, and don't give up. if you have trouble \n at first, keep trying and you will get good!");
+			JOptionPane.showMessageDialog(null,
+					"Welcome to Avoid The Bullets! Please read this text if you are playing "
+							+ "for the first time. This is a survival game. Once you are in the game,\n"
+							+ " you see yourself as the white circle. There will be missiles traveling at high speeds at you."
+							+ "If you want to survive, use the arrow keys to move around and avoid them. \n Use your "
+							+ "reflexes and pro gamer skills to survive. Every 10 ten seconds,  there is a change that a powerup will "
+							+ "spawn randomly on the map. \n If one does,  you can collect it and it will give you either speed or "
+							+ "invulnerability  for 5 seconds. These are marked by the lightning bolt \n and turtle shell respectively. "
+							+ "Have fun, and don't give up. if you have trouble \n at first, keep trying and you will get good!");
 		}
 		if (b.getKeyCode() == KeyEvent.VK_SPACE && currentState == END) {
 			manager.score = 0;
@@ -215,7 +221,7 @@ survival.stop();
 		bulletspawn.start();
 
 	}
-	
+
 	// Image loader method
 
 	void loadImage(String imageFile) {

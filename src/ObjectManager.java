@@ -26,45 +26,45 @@ public class ObjectManager implements ActionListener {
 	}
 
 	// spawner bullet method
-		public void spawn() { 
-			int spawnlocation = generator.nextInt(3);
-			int spawnareaX = generator.nextInt(750);
-			int spawnareaY = generator.nextInt(750);
-			if (spawnlocation == 0) {
-				EnemyBullet bullet = new EnemyBullet(0, spawnareaY, 50, 50, 15);
-				bullets.add(bullet);
-			} else if (spawnlocation == 1) {
-				EnemyBullet bullet = new EnemyBullet(spawnareaX, 0, 50, 50, 15);
-				bullets.add(bullet);
-			} else if (spawnlocation == 2) {
-				EnemyBullet bullet = new EnemyBullet(AvoidTheBullets.WIDTH, spawnareaY, 50, 50, 15);
-				bullets.add(bullet);
-			} else if (spawnlocation == 3) {
-				EnemyBullet bullet = new EnemyBullet(spawnareaX, AvoidTheBullets.HEIGHT - 15, 50, 50, 15);
-				bullets.add(bullet);
-			}
+	public void spawn() {
+		int spawnlocation = generator.nextInt(3);
+		int spawnareaX = generator.nextInt(750);
+		int spawnareaY = generator.nextInt(750);
+		if (spawnlocation == 0) {
+			EnemyBullet bullet = new EnemyBullet(0, spawnareaY, 50, 50, 15);
+			bullets.add(bullet);
+		} else if (spawnlocation == 1) {
+			EnemyBullet bullet = new EnemyBullet(spawnareaX, 0, 50, 50, 15);
+			bullets.add(bullet);
+		} else if (spawnlocation == 2) {
+			EnemyBullet bullet = new EnemyBullet(AvoidTheBullets.WIDTH, spawnareaY, 50, 50, 15);
+			bullets.add(bullet);
+		} else if (spawnlocation == 3) {
+			EnemyBullet bullet = new EnemyBullet(spawnareaX, AvoidTheBullets.HEIGHT - 15, 50, 50, 15);
+			bullets.add(bullet);
 		}
-		
-		// spawner spinner  method
-		
-		public void spawnspinner() {
-			int spawnlocation = generator.nextInt(3);
-			int spawnareaX = generator.nextInt(750);
-			int spawnareaY = generator.nextInt(750);
-			if (spawnlocation == 0) {
-				EnemySpinner spinner = new EnemySpinner( -70, spawnareaY, 50, 50, 15, 6, true);				
-				spinners.add(spinner);
-			} else if (spawnlocation == 1) {
-				EnemySpinner spinner = new EnemySpinner(spawnareaX, -70, 50, 50, 15, 6, true);
-				spinners.add(spinner);
-			} else if (spawnlocation == 2) {
-				EnemySpinner spinner = new EnemySpinner(-70, spawnareaY, 50, 50, 15, 6, true);
-				spinners.add(spinner);
-			} else if (spawnlocation == 3) {
-				EnemySpinner spinner = new EnemySpinner(spawnareaX, AvoidTheBullets.HEIGHT + 70, 50, 50, 15, 6, true);
-				spinners.add(spinner);
-			}
+	}
+
+	// spawner spinner method
+
+	public void spawnspinner() {
+		int spawnlocation = generator.nextInt(3);
+		int spawnareaX = generator.nextInt(750);
+		int spawnareaY = generator.nextInt(750);
+		if (spawnlocation == 0) {
+			EnemySpinner spinner = new EnemySpinner(-70, spawnareaY, 75, 75, 15, 6, true);
+			spinners.add(spinner);
+		} else if (spawnlocation == 1) {
+			EnemySpinner spinner = new EnemySpinner(spawnareaX, -70, 75, 75, 15, 6, true);
+			spinners.add(spinner);
+		} else if (spawnlocation == 2) {
+			EnemySpinner spinner = new EnemySpinner(-70, spawnareaY, 75, 75, 15, 6, true);
+			spinners.add(spinner);
+		} else if (spawnlocation == 3) {
+			EnemySpinner spinner = new EnemySpinner(spawnareaX, AvoidTheBullets.HEIGHT + 70, 75, 75, 15, 6, true);
+			spinners.add(spinner);
 		}
+	}
 
 	public void spawnpowerups() {
 		int spawnareaX = generator.nextInt(750);
@@ -92,14 +92,14 @@ public class ObjectManager implements ActionListener {
 			bullets.get(i).update(ship.x, ship.y);
 		}
 		ship.update();
-		if (System.currentTimeMillis()>powerstart + 5000) {
+		if (System.currentTimeMillis() > powerstart + 5000) {
 			ship.speed = 5;
 			activePowerUpType = -1;
 		}
 		if (activePowerUpType != 1) {
 			checkCollision();
 		}
-		for(int i = 0; i< spinners.size(); i++) {
+		for (int i = 0; i < spinners.size(); i++) {
 			spinners.get(i).update();
 		}
 		purgeobjects();
@@ -125,14 +125,19 @@ public class ObjectManager implements ActionListener {
 	public void checkCollision() {
 		for (int i = 0; i < bullets.size(); i++) {
 			if (bullets.get(i).hasCollided(ship)) {
+			    death();
+			}
+		}
+		for (int i = 0; i < spinners.size(); i++) {
+			if (spinners.get(i).hasCollided(ship)) {
 				death();
 			}
 		}
 		for (int i = 0; i < powerups.size(); i++) {
 			if (powerups.get(i).hasCollided(ship)) {
 				if (powerups.get(i).type == 0) {
-					ship.speed+=5;
-				} 
+					ship.speed += 5;
+				}
 				activePowerUpType = powerups.get(i).type;
 				powerstart = System.currentTimeMillis();
 				powerups.clear();
@@ -140,7 +145,7 @@ public class ObjectManager implements ActionListener {
 		}
 		if (ship.x > 799) {
 			ship.x = 2;
-		} 
+		}
 		if (ship.x < 1) {
 			ship.x = 798;
 		}
@@ -150,20 +155,23 @@ public class ObjectManager implements ActionListener {
 		if (ship.y > 799) {
 			ship.y = 2;
 		}
+
 	}
 
 	public void purgeobjects() {
 		for (int i = 0; i < bullets.size(); i++) {
-			if (bullets.get(i).active == false) {
-				bullets.remove(i);
-			}
+				if (bullets.get(i).active == false) {
+					bullets.remove(i);
+				}
 		}
 		for (int i = 0; i < spinners.size(); i++) {
-			if (spinners.get(i).active == false) {
-				spinners.remove(i);
-			}
+
+				if (spinners.get(i).active == false) {
+					spinners.remove(i);
+				}
 		}
 	}
+
 	public void survivetime() {
 		score += 1;
 	}
@@ -175,8 +183,15 @@ public class ObjectManager implements ActionListener {
 
 	public void death() {
 		ship.active = false;
+		for (int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).active = false;
+		}
+		for (int i = 0; i < spinners.size(); i++) {
+			spinners.get(i).active = false;
+		}
+
 	}
-	
+
 	public void spinner() {
 		spawnspinner();
 	}

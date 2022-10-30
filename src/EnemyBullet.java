@@ -18,6 +18,7 @@ public class EnemyBullet extends GameObject {
 
 	// member variables
 
+	int age = 0;
 	double angle = 0;
 	double vx;
 	double vy;
@@ -57,6 +58,10 @@ public class EnemyBullet extends GameObject {
 	}
 
 	void update(double shipX, double shipY) {
+		age+=1;
+		if (age>600) {
+			active = false;
+		}
 		x -= vx;
 		y -= vy;
 
