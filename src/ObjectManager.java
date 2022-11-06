@@ -143,17 +143,17 @@ public class ObjectManager implements ActionListener {
 				powerups.clear();
 			}
 		}
-		if (ship.x > 799) {
-			ship.x = 2;
+		if (ship.x > 790) {
+			ship.x = 10;
 		}
-		if (ship.x < 1) {
-			ship.x = 798;
+		if (ship.x < 9) {
+			ship.x = 789;
 		}
-		if (ship.y < 1) {
-			ship.y = 798;
+		if (ship.y < 10) {
+			ship.y = 790;
 		}
-		if (ship.y > 799) {
-			ship.y = 2;
+		if (ship.y > 789) {
+			ship.y = 10;
 		}
 
 	}
@@ -165,7 +165,6 @@ public class ObjectManager implements ActionListener {
 				}
 		}
 		for (int i = 0; i < spinners.size(); i++) {
-
 				if (spinners.get(i).active == false) {
 					spinners.remove(i);
 				}

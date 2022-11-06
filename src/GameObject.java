@@ -29,13 +29,13 @@ public class GameObject {
 
 	// getdistance method
 	double getDistanceFrom(double x2, double y2) {
-		return Math.sqrt(Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2));
+		return Math.sqrt(Math.pow(x2 - (x - size/2), 2) + Math.pow(y2 - (y - size/2), 2));
 
 	}
 	// has collided method
 
 	boolean hasCollided(GameObject other) {
-		double distance = getDistanceFrom(other.x, other.y);
+		double distance = getDistanceFrom(other.x - other.size/2, other.y - other.size/2);
 		boolean hasCollided = distance < other.size + size;
 		return hasCollided;
 

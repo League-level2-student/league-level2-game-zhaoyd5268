@@ -25,7 +25,7 @@ public class EnemySpinner extends GameObject {
 	// constructor
 
 	EnemySpinner(double x, double y, int width, int height, int speed, double size, boolean active) {
-		super(x, y, width, height, 10, 10, active);
+		super(x, y, width, height, 10, width/2, active);
 		this.width = width;
 		this.height = height;
 		mode = 0;
@@ -42,28 +42,30 @@ public class EnemySpinner extends GameObject {
 
 	void draw(Graphics g) {
 		if (gotImage) {
-			g.drawImage(image, (int) x, (int) y, (int) width, (int) height, null);
+			g.drawImage(image, (int) (x-width/2), (int) (y - height/2), (int) width, (int) height, null);
 		} else {
 			g.setColor(Color.BLUE);
 			g.fillRect((int) x, (int) y, (int) width, (int) height);
 		}
-
 	}
 	// update method
 
 	void update() {
 		age += 1;
 		if (mode == 0) {
-			if (age >= 20) {
+			double dx = AvoidTheBullets.WIDTH / 2 - x;
+			double dy = AvoidTheBullets.HEIGHT / 2 - y;
+			double d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+			if (d <= 320) {
 				mode = 1;
-				double dx = x - AvoidTheBullets.WIDTH / 2;
-				double dy = y - AvoidTheBullets.HEIGHT / 2;
-				double d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-				;
 				double l = Math.asin(dx / d);
-				double h = 180 - l;
+				double a = Math.toDegrees(l);
+				double h = 180 - a;
 				double b = 360 - h;
 				angle = Math.toRadians(b);
+				if (dx < 0) {
+					angle = -angle;
+				}
 			}
 			x -= vx;
 			y -= vy;
@@ -83,9 +85,10 @@ public class EnemySpinner extends GameObject {
 		if (mode == 2) {
 			x -= vx;
 			y -= vy;
-			width += 0.8;
-			height += 0.8;
-			if (age >= 600) {
+			width += 0.9;
+			height += 0.9;
+			size += 0.8;
+			if (age >= 500) {
 				active = false;
 			}
 		}

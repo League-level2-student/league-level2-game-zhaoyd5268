@@ -70,7 +70,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	// Game state methods
 
 	void updateMenuState() {
-		bulletspawn.stop();
+	  	bulletspawn.stop();
 		spinnerspawn.stop();
 		poweruptimer.stop();
 		survival.stop();
@@ -154,16 +154,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 		if (b.getKeyCode() == KeyEvent.VK_I && currentState == MENU) {
 			JOptionPane.showMessageDialog(null,
-					"Welcome to Avoid The Bullets! Please read this text if you are playing "
-							+ "for the first time. This is a survival game. Once you are in the game,\n"
-							+ " you see yourself as the white circle. There will be missiles traveling at high speeds at you."
-							+ "If you want to survive, use the arrow keys to move around and avoid them. \n Use your "
-							+ "reflexes and pro gamer skills to survive. Every 10 ten seconds,  there is a change that a powerup will "
-							+ "spawn randomly on the map. \n If one does,  you can collect it and it will give you either speed or "
-							+ "invulnerability  for 5 seconds. These are marked by the lightning bolt \n and turtle shell respectively. "
-							+ "Have fun, and don't give up. if you have trouble \n at first, keep trying and you will get good!");
+					"Welcome to Avoid The Bullets! This is a survival game. Use your arrow keys to move, and if you are on mobile, sucks for you."
+					+ "\n Missiles will come at you and mad angry suns will also come at you. Powerups spawn every couple of seconds. The turtle \n"
+					+ "shell one is invulnerability for 5 seconds. The lightning bolt is increased speed for 5 seconds. Have fun!");
 		}
 		if (b.getKeyCode() == KeyEvent.VK_SPACE && currentState == END) {
+			manager.ship.x = 400;
+			manager.ship.y = 400;
 			manager.score = 0;
 			manager.ship.active = true;
 			manager.bullets.clear();
