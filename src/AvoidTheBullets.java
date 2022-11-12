@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 
 public class AvoidTheBullets {
 
+// RUN THIS CLASS ONLY PLEASE
+
 	// Game variables
 
 	JFrame frame;
