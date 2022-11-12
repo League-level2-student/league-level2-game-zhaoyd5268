@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class AvoidTheBullets {
 
-// RUN THIS CLASS ONLY PLEASE
+// RUN THIS CLASS ONLY PLEASE Okay thx bye
 
 	// Game variables
 
